@@ -6,12 +6,13 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:4000";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> | { path: string[] } }
 ) {
   try {
-    const rawPath = Array.isArray(params?.path)
-      ? params.path.join("/")
-      : params?.path;
+    const resolvedParams = await Promise.resolve(params);
+    const rawPath = Array.isArray(resolvedParams?.path)
+      ? resolvedParams.path.join("/")
+      : resolvedParams?.path;
     const fallbackPath = request.nextUrl.pathname.replace(/^\/api\//, "");
     const path = rawPath || fallbackPath;
     const target = `${API_BASE}/api/${path}${request.nextUrl.search}`;
