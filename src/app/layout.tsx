@@ -8,9 +8,12 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Citrea Network Analytics",
-  description:
-    "Real-time analytics dashboard for Citrea Network - TVL, Bridge metrics, Token analytics, and Chain health monitoring",
+  title: "Citrea Watch",
+  description: "Citrea Network Analytics Dashboard",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
   generator: "v0.app",
 };
 
