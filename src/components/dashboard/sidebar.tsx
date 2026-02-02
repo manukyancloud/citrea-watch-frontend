@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
-  Activity,
-  Database,
   LayoutDashboard,
   ArrowLeftRight,
   Settings,
@@ -42,6 +41,70 @@ const bottomNavItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [blockHeight, setBlockHeight] = useState<number | null>(null);
+  const [tps, setTps] = useState<number | null>(null);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadStats = async () => {
+      try {
+        const apiUrl =
+          process.env.NEXT_PUBLIC_BLOCKSCOUT_API_URL ??
+          "https://explorer-stats.mainnet.citrea.xyz/api/v1/pages/main";
+        const response = await fetch(apiUrl, { method: "GET" });
+        if (!response.ok) {
+          throw new Error("Stats request failed");
+        }
+        const payload = (await response.json()) as {
+          data?: {
+            total_blocks?: { value?: number | string };
+            yesterday_transactions?: { value?: number | string };
+          };
+          total_blocks?: { value?: number | string };
+          yesterday_transactions?: { value?: number | string };
+        };
+
+        const dataRoot = payload.data ?? payload;
+        const totalBlocksRaw = dataRoot.total_blocks?.value;
+        const yesterdayTxsRaw = dataRoot.yesterday_transactions?.value;
+        const totalBlocks =
+          typeof totalBlocksRaw === "string"
+            ? Number(totalBlocksRaw)
+            : totalBlocksRaw;
+        const yesterdayTxs =
+          typeof yesterdayTxsRaw === "string"
+            ? Number(yesterdayTxsRaw)
+            : yesterdayTxsRaw;
+
+        if (!isActive) return;
+
+        setBlockHeight(
+          typeof totalBlocks === "number" && Number.isFinite(totalBlocks)
+            ? totalBlocks
+            : null
+        );
+        if (typeof yesterdayTxs === "number" && Number.isFinite(yesterdayTxs)) {
+          const tpsValue = yesterdayTxs / 86400;
+          setTps(Number.isFinite(tpsValue) ? tpsValue : null);
+        } else {
+          setTps(null);
+        }
+      } catch {
+        if (!isActive) return;
+        setBlockHeight(null);
+        setTps(null);
+      }
+    };
+
+    loadStats();
+    const interval = window.setInterval(loadStats, 30_000);
+
+    return () => {
+      isActive = false;
+      window.clearInterval(interval);
+    };
+  }, []);
 
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 glass-card border-r border-[rgba(239,143,54,0.15)] flex flex-col">
@@ -114,11 +177,17 @@ export function Sidebar() {
         <div className="grid grid-cols-2 gap-2 text-[10px]">
           <div>
             <span className="text-muted-foreground">Block</span>
-            <p className="font-mono text-foreground">#4,892,341</p>
+            <p className="font-mono text-foreground">
+              {typeof blockHeight === "number"
+                ? `#${blockHeight.toLocaleString()}`
+                : "—"}
+            </p>
           </div>
           <div>
             <span className="text-muted-foreground">TPS</span>
-            <p className="font-mono text-foreground">1,247</p>
+            <p className="font-mono text-foreground">
+              {typeof tps === "number" ? tps.toFixed(2) : "—"}
+            </p>
           </div>
         </div>
       </div>
