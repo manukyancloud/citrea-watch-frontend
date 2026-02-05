@@ -1,3 +1,12 @@
+## Live App
+
+🌐 https://citrea.watch
+
+**citrea.watch** is a community-built dashboard for the Citrea ecosystem.  
+It provides a simple way to track ecosystem activity, explore on-chain data, and monitor Citrea-related metrics in one place.
+
+The goal of this project is to offer a clean, fast, and accessible interface for users building and exploring on Citrea.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
