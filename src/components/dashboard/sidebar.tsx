@@ -8,6 +8,7 @@ import {
   ArrowLeftRight,
   Settings,
   HelpCircle,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,11 +32,13 @@ const bottomNavItems = [
     title: "Settings",
     href: "/settings",
     icon: Settings,
+    external: false,
   },
   {
     title: "Documentation",
-    href: "/docs",
+    href: "https://github.com/manukyancloud/citrea-watch-frontend",
     icon: HelpCircle,
+    external: true,
   },
 ];
 
@@ -195,14 +198,33 @@ export function Sidebar() {
       {/* Bottom Navigation */}
       <div className="px-3 py-3 border-t border-[rgba(239,143,54,0.1)]">
         {bottomNavItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-[rgba(255,255,255,0.03)] transition-colors"
-          >
-            <item.icon className="w-4 h-4" />
-            <span className="text-sm">{item.title}</span>
-          </Link>
+          item.external ? (
+            <a
+              key={item.href}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-[rgba(255,255,255,0.03)] transition-colors"
+            >
+              <item.icon className="w-4 h-4" />
+              <span className="text-sm">{item.title}</span>
+              <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
+            </a>
+          ) : (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors",
+                pathname === item.href
+                  ? "bg-gradient-to-r from-[rgba(239,143,54,0.15)] to-transparent border border-[rgba(239,143,54,0.2)] text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-[rgba(255,255,255,0.03)]"
+              )}
+            >
+              <item.icon className={cn("w-4 h-4", pathname === item.href ? "text-[#EF8F36]" : "")} />
+              <span className="text-sm">{item.title}</span>
+            </Link>
+          )
         ))}
       </div>
     </aside>

@@ -10,6 +10,9 @@ import {
   ArrowLeftRight,
   Coins,
   Layers,
+  Settings,
+  HelpCircle,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -90,6 +93,34 @@ export function MobileNav() {
               );
             })}
           </nav>
+
+          {/* Bottom links */}
+          <div className="mt-6 pt-4 border-t border-[rgba(239,143,54,0.1)] space-y-1">
+            <Link
+              href="/settings"
+              onClick={() => setIsOpen(false)}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
+                pathname === "/settings"
+                  ? "bg-[rgba(239,143,54,0.15)] text-foreground border border-[rgba(239,143,54,0.2)]"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <Settings className={cn("w-5 h-5", pathname === "/settings" ? "text-[#EF8F36]" : "text-muted-foreground")} />
+              <span className="text-sm font-medium">Settings</span>
+            </Link>
+            <a
+              href="https://github.com/manukyancloud/citrea-watch-frontend"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <HelpCircle className="w-5 h-5 text-muted-foreground" />
+              <span className="text-sm font-medium">Documentation</span>
+              <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -98,3 +129,4 @@ export function MobileNav() {
     </div>
   );
 }
+
