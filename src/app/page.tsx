@@ -11,12 +11,14 @@ import { TransparencyCard } from "@/components/dashboard/TransparencyCard";
 import { useGlobalTvl } from "@/lib/use-global-tvl";
 import { useTvlHistory } from "@/lib/use-tvl-history";
 import { useExplorerSummary } from "@/lib/use-explorer-summary";
+import { useSettings } from "@/lib/settings-context";
 import { Wallet } from "lucide-react";
 
 export default function OverviewPage() {
-  const { data, loading } = useGlobalTvl();
+  const { refreshMs, formatUsd, formatNumber, formatCbtc, formatPct } = useSettings();
+  const { data, loading } = useGlobalTvl(refreshMs);
   const { data: tvlHistory } = useTvlHistory();
-  const { data: explorerData } = useExplorerSummary();
+  const { data: explorerData } = useExplorerSummary(refreshMs);
   const tokens = data?.tokens ?? [];
   const totalTvlUsd = data?.totalTvlUsd ?? null;
   const cbtcSupply =
@@ -25,35 +27,6 @@ export default function OverviewPage() {
   const stablecoinSupplyUsd = tokens
     .filter((token) => token.symbol.toLowerCase().includes("usd"))
     .reduce((sum, token) => sum + token.tvlUsd, 0);
-
-  const formatUsd = (value: number | null) => {
-    if (value === null) {
-      return "—";
-    }
-    return `$${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
-  };
-
-  const formatNumber = (value: number | null) => {
-    if (value === null) {
-      return "—";
-    }
-    return value.toLocaleString();
-  };
-
-  const formatCbtc = (value: number | null | undefined) => {
-    if (value === null || value === undefined) {
-      return "—";
-    }
-    return `${value.toLocaleString(undefined, { maximumFractionDigits: 6 })} cBTC`;
-  };
-
-  const formatPct = (value: number | null | undefined) => {
-    if (value === null || value === undefined) {
-      return "—";
-    }
-    const sign = value >= 0 ? "+" : "";
-    return `${sign}${value.toFixed(2)}%`;
-  };
 
   const formatUpdatedAgo = (timestamp: number | null | undefined) => {
     if (!timestamp) {
@@ -148,7 +121,7 @@ export default function OverviewPage() {
           <MetricCard
             title="TOTAL TOKENS"
             value={formatNumber(explorerData?.totalTokens ?? tokens.length)}
-            tooltip="Total number of ERC-20 tokens on the network." 
+            tooltip="Total number of ERC-20 tokens on the network."
           />
           <MetricCard
             title="TOTAL ADDRESSES"
@@ -170,3 +143,4 @@ export default function OverviewPage() {
     </DashboardLayout>
   );
 }
+

@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { HelpCircle } from "lucide-react";
+import { useSettings } from "@/lib/settings-context";
 
 interface GlassCardProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ export function GlassCard({
   icon,
   headerAction,
 }: GlassCardProps) {
+  const { settings } = useSettings();
   return (
     <div
       className={cn(
@@ -46,7 +48,7 @@ export function GlassCard({
             {title && (
               <h3 className="text-sm font-medium text-[#EF8F36]">{title}</h3>
             )}
-            {tooltip && (
+            {tooltip && settings.showTooltips && (
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -94,6 +96,7 @@ export function MetricCard({
   className,
   variant = "default",
 }: MetricCardProps) {
+  const { settings } = useSettings();
   const isPositive = change ? change.value >= 0 : true;
 
   return (
@@ -107,14 +110,14 @@ export function MetricCard({
       {variant === "hero" && (
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#EF8F36] to-[#EB582A] rounded-full opacity-10 blur-2xl -translate-y-1/2 translate-x-1/2" />
       )}
-      
+
       <div className="flex items-start justify-between relative">
         <div className="flex items-center gap-2">
           {icon && <div className="text-[#EF8F36]">{icon}</div>}
           <span className="text-xs text-[#EF8F36] uppercase tracking-wider font-medium">
             {title}
           </span>
-          {tooltip && (
+          {tooltip && settings.showTooltips && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

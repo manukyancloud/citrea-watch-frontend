@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
 import { GlassCard } from "@/components/dashboard/glass-card";
 import {
@@ -9,65 +9,12 @@ import {
     Monitor,
     RefreshCw,
     DollarSign,
-    Bell,
     Github,
     ExternalLink,
     Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-type Theme = "dark" | "light" | "system";
-type Currency = "USD" | "EUR" | "BTC";
-type RefreshRate = "10" | "30" | "60" | "300";
-
-interface UserSettings {
-    theme: Theme;
-    currency: Currency;
-    refreshRate: RefreshRate;
-    compactNumbers: boolean;
-    showTooltips: boolean;
-    animationsEnabled: boolean;
-}
-
-const DEFAULT_SETTINGS: UserSettings = {
-    theme: "dark",
-    currency: "USD",
-    refreshRate: "30",
-    compactNumbers: false,
-    showTooltips: true,
-    animationsEnabled: true,
-};
-
-const STORAGE_KEY = "citrea-watch-settings";
-
-function loadSettings(): UserSettings {
-    if (typeof window === "undefined") return DEFAULT_SETTINGS;
-    try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return DEFAULT_SETTINGS;
-        return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
-    } catch {
-        return DEFAULT_SETTINGS;
-    }
-}
-
-function saveSettings(settings: UserSettings) {
-    if (typeof window === "undefined") return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-}
-
-function applyTheme(theme: Theme) {
-    if (typeof window === "undefined") return;
-    const root = document.documentElement;
-    if (theme === "system") {
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        root.classList.toggle("dark", prefersDark);
-        root.classList.toggle("light", !prefersDark);
-    } else {
-        root.classList.toggle("dark", theme === "dark");
-        root.classList.toggle("light", theme === "light");
-    }
-}
+import { useSettings, Theme, Currency, RefreshRate } from "@/lib/settings-context";
 
 const themeOptions: { value: Theme; label: string; icon: typeof Sun }[] = [
     { value: "dark", label: "Dark", icon: Moon },
@@ -101,9 +48,7 @@ function ToggleSwitch({
             onClick={() => onChange(!enabled)}
             className={cn(
                 "relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none",
-                enabled
-                    ? "bg-[#EF8F36]"
-                    : "bg-[rgba(255,255,255,0.1)]"
+                enabled ? "bg-[#EF8F36]" : "bg-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)] light:bg-[rgba(0,0,0,0.15)]"
             )}
         >
             <span
@@ -133,45 +78,17 @@ function SavedIndicator({ show }: { show: boolean }) {
 }
 
 export default function SettingsPage() {
-    const [settings, setSettings] = useState<UserSettings>(DEFAULT_SETTINGS);
+    const { settings, updateSetting } = useSettings();
     const [showSaved, setShowSaved] = useState(false);
-    const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
-        setSettings(loadSettings());
-        setMounted(true);
-    }, []);
-
-    const updateSetting = useCallback(
-        <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => {
-            setSettings((prev) => {
-                const next = { ...prev, [key]: value };
-                saveSettings(next);
-                if (key === "theme") {
-                    applyTheme(value as Theme);
-                }
-                return next;
-            });
-            setShowSaved(true);
-            setTimeout(() => setShowSaved(false), 2000);
-        },
-        []
-    );
-
-    if (!mounted) {
-        return (
-            <DashboardLayout>
-                <div className="space-y-6">
-                    <div className="flex flex-col gap-1">
-                        <h1 className="text-2xl font-semibold text-foreground tracking-tight">
-                            Settings
-                        </h1>
-                        <p className="text-sm text-muted-foreground">Loading preferences…</p>
-                    </div>
-                </div>
-            </DashboardLayout>
-        );
-    }
+    const handleUpdate = <K extends keyof typeof settings>(
+        key: K,
+        value: (typeof settings)[K]
+    ) => {
+        updateSetting(key, value);
+        setShowSaved(true);
+        setTimeout(() => setShowSaved(false), 2000);
+    };
 
     return (
         <DashboardLayout>
@@ -200,12 +117,12 @@ export default function SettingsPage() {
                                     return (
                                         <button
                                             key={option.value}
-                                            onClick={() => updateSetting("theme", option.value)}
+                                            onClick={() => handleUpdate("theme", option.value)}
                                             className={cn(
                                                 "flex flex-col items-center gap-2 p-4 rounded-lg border transition-all duration-200",
                                                 isActive
                                                     ? "border-[#EF8F36] bg-[rgba(239,143,54,0.1)]"
-                                                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.3)] hover:bg-[rgba(255,255,255,0.04)]"
+                                                    : "border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.3)] hover:bg-[rgba(255,255,255,0.04)]"
                                             )}
                                         >
                                             <option.icon
@@ -238,7 +155,7 @@ export default function SettingsPage() {
                             </div>
                             <ToggleSwitch
                                 enabled={settings.animationsEnabled}
-                                onChange={(v) => updateSetting("animationsEnabled", v)}
+                                onChange={(v) => handleUpdate("animationsEnabled", v)}
                             />
                         </div>
                     </div>
@@ -261,12 +178,12 @@ export default function SettingsPage() {
                                     return (
                                         <button
                                             key={option.value}
-                                            onClick={() => updateSetting("refreshRate", option.value)}
+                                            onClick={() => handleUpdate("refreshRate", option.value)}
                                             className={cn(
                                                 "px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-200",
                                                 isActive
                                                     ? "border-[#EF8F36] bg-[rgba(239,143,54,0.1)] text-foreground"
-                                                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] text-muted-foreground hover:border-[rgba(239,143,54,0.3)]"
+                                                    : "border-border bg-[rgba(255,255,255,0.02)] text-muted-foreground hover:border-[rgba(239,143,54,0.3)]"
                                             )}
                                         >
                                             {option.label}
@@ -287,12 +204,12 @@ export default function SettingsPage() {
                                     return (
                                         <button
                                             key={option.value}
-                                            onClick={() => updateSetting("currency", option.value)}
+                                            onClick={() => handleUpdate("currency", option.value)}
                                             className={cn(
                                                 "flex items-center gap-2 px-4 py-3 rounded-lg border transition-all duration-200",
                                                 isActive
                                                     ? "border-[#EF8F36] bg-[rgba(239,143,54,0.1)]"
-                                                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.3)]"
+                                                    : "border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.3)]"
                                             )}
                                         >
                                             <span
@@ -327,7 +244,7 @@ export default function SettingsPage() {
                             </div>
                             <ToggleSwitch
                                 enabled={settings.compactNumbers}
-                                onChange={(v) => updateSetting("compactNumbers", v)}
+                                onChange={(v) => handleUpdate("compactNumbers", v)}
                             />
                         </div>
 
@@ -341,7 +258,7 @@ export default function SettingsPage() {
                             </div>
                             <ToggleSwitch
                                 enabled={settings.showTooltips}
-                                onChange={(v) => updateSetting("showTooltips", v)}
+                                onChange={(v) => handleUpdate("showTooltips", v)}
                             />
                         </div>
                     </div>
@@ -354,7 +271,7 @@ export default function SettingsPage() {
                             href="https://github.com/manukyancloud/citrea-watch-frontend"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between p-3 rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.2)] hover:bg-[rgba(255,255,255,0.04)] transition-all duration-200 group"
+                            className="flex items-center justify-between p-3 rounded-lg border border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.2)] hover:bg-[rgba(255,255,255,0.04)] transition-all duration-200 group"
                         >
                             <div className="flex items-center gap-3">
                                 <Github className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -362,9 +279,7 @@ export default function SettingsPage() {
                                     <p className="text-sm font-medium text-foreground">
                                         Frontend Source Code
                                     </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        View on GitHub
-                                    </p>
+                                    <p className="text-xs text-muted-foreground">View on GitHub</p>
                                 </div>
                             </div>
                             <ExternalLink className="w-4 h-4 text-muted-foreground opacity-50 group-hover:opacity-100 transition-opacity" />
@@ -373,7 +288,7 @@ export default function SettingsPage() {
                             href="https://github.com/manukyancloud/citrea-watch-backend"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between p-3 rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.2)] hover:bg-[rgba(255,255,255,0.04)] transition-all duration-200 group"
+                            className="flex items-center justify-between p-3 rounded-lg border border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.2)] hover:bg-[rgba(255,255,255,0.04)] transition-all duration-200 group"
                         >
                             <div className="flex items-center gap-3">
                                 <Github className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -381,9 +296,7 @@ export default function SettingsPage() {
                                     <p className="text-sm font-medium text-foreground">
                                         Backend Source Code
                                     </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        View on GitHub
-                                    </p>
+                                    <p className="text-xs text-muted-foreground">View on GitHub</p>
                                 </div>
                             </div>
                             <ExternalLink className="w-4 h-4 text-muted-foreground opacity-50 group-hover:opacity-100 transition-opacity" />

@@ -11,16 +11,16 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen bg-[#0a0a14] relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Background gradient effects */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#EF8F36] rounded-full opacity-[0.02] blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#EB582A] rounded-full opacity-[0.02] blur-[120px]" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#EF8F36] rounded-full opacity-[0.02] dark:opacity-[0.02] blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#EB582A] rounded-full opacity-[0.02] dark:opacity-[0.02] blur-[120px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-[rgba(239,143,54,0.03)] to-transparent rounded-full" />
       </div>
-      
+
       {/* Grid pattern overlay */}
-      <div 
+      <div
         className="fixed inset-0 pointer-events-none opacity-[0.02]"
         style={{
           backgroundImage: `

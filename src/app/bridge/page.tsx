@@ -10,13 +10,15 @@ import { useBridgeSummary } from "@/lib/use-bridge-summary";
 import { useBridgeTimeseries } from "@/lib/use-bridge-timeseries";
 import { useGasTimeseries } from "@/lib/use-gas-timeseries";
 import { useGlobalTvl } from "@/lib/use-global-tvl";
+import { useSettings } from "@/lib/settings-context";
 import { ArrowUpRight, ArrowDownRight, Fuel, Coins, AlertTriangle } from "lucide-react";
 
 export default function BridgePage() {
-  const { data: bridgeData, loading: bridgeLoading } = useBridgeSummary();
-  const { data: bridgeSeries } = useBridgeTimeseries();
-  const { series: gasSeries, heatmap: gasHeatmap } = useGasTimeseries();
-  const { data: tvlData } = useGlobalTvl();
+  const { refreshMs, formatUsd, formatCbtc } = useSettings();
+  const { data: bridgeData, loading: bridgeLoading } = useBridgeSummary(refreshMs);
+  const { data: bridgeSeries } = useBridgeTimeseries(refreshMs);
+  const { series: gasSeries, heatmap: gasHeatmap } = useGasTimeseries(refreshMs);
+  const { data: tvlData } = useGlobalTvl(refreshMs);
   const cbtcToken = tvlData?.tokens.find(
     (token) => token.symbol.toLowerCase() === "cbtc"
   );
@@ -25,8 +27,8 @@ export default function BridgePage() {
   const totalWithdrawnCbtc = bridgeData?.totalWithdrawnCbtc ?? null;
   const totalBridgeTxs = bridgeData
     ? bridgeData.depositCount +
-      bridgeData.failedDepositCount +
-      bridgeData.withdrawalCount
+    bridgeData.failedDepositCount +
+    bridgeData.withdrawalCount
     : null;
   const vaults = (bridgeData?.vaults ?? []).map((vault) => ({
     ...vault,
@@ -46,22 +48,10 @@ export default function BridgePage() {
 
   const avgGasPrice = gasSeries?.points?.length
     ? gasSeries.points.reduce((sum, point) => sum + point.baseFee, 0) /
-      gasSeries.points.length
+    gasSeries.points.length
     : null;
 
-  const formatCbtc = (value: number | null) => {
-    if (value === null) {
-      return "—";
-    }
-    return `${value.toLocaleString(undefined, { maximumFractionDigits: 4 })} cBTC`;
-  };
 
-  const formatUsd = (value: number | null) => {
-    if (value === null) {
-      return "—";
-    }
-    return `$${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
-  };
 
   return (
     <DashboardLayout>

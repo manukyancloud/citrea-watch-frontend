@@ -52,7 +52,7 @@ export function MobileNav() {
       {/* Mobile Menu Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-[#0a0a14]/80 backdrop-blur-sm"
+          className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={() => setIsOpen(false)}
         />
       )}
