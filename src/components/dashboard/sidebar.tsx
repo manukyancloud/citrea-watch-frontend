@@ -149,7 +149,7 @@ export function Sidebar() {
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group",
                 isActive
                   ? "bg-gradient-to-r from-[rgba(239,143,54,0.15)] to-transparent border border-[rgba(239,143,54,0.2)] text-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-[rgba(255,255,255,0.03)]"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/30 dark:hover:bg-[rgba(255,255,255,0.03)]"
               )}
             >
               <item.icon
@@ -170,7 +170,7 @@ export function Sidebar() {
       </nav>
 
       {/* Network Status */}
-      <div className="mx-3 mb-3 p-3 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(239,143,54,0.1)]">
+      <div className="mx-3 mb-3 p-3 rounded-lg bg-muted/40 dark:bg-[rgba(255,255,255,0.02)] border border-[rgba(239,143,54,0.1)]">
         <div className="flex items-center gap-2 mb-2">
           <div className="w-2 h-2 rounded-full bg-[#22c55e] live-pulse" />
           <span className="text-xs font-medium text-foreground">
@@ -204,7 +204,7 @@ export function Sidebar() {
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-[rgba(255,255,255,0.03)] transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/30 dark:hover:bg-[rgba(255,255,255,0.03)] transition-colors"
             >
               <item.icon className="w-4 h-4" />
               <span className="text-sm">{item.title}</span>
@@ -218,7 +218,7 @@ export function Sidebar() {
                 "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors",
                 pathname === item.href
                   ? "bg-gradient-to-r from-[rgba(239,143,54,0.15)] to-transparent border border-[rgba(239,143,54,0.2)] text-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-[rgba(255,255,255,0.03)]"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/30 dark:hover:bg-[rgba(255,255,255,0.03)]"
               )}
             >
               <item.icon className={cn("w-4 h-4", pathname === item.href ? "text-[#EF8F36]" : "")} />

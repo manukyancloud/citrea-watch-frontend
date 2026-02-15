@@ -51,19 +51,19 @@ export function VaultBalances({ vaults }: VaultBalancesProps) {
           Vault data is not available yet.
         </div>
       ) : (
-        <div className="divide-y divide-gray-800">
+        <div className="divide-y divide-border">
           {vaults.map((vault) => (
             <div key={vault.name} className="py-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h4 className="text-sm text-white font-medium tracking-wide">
+                    <h4 className="text-sm text-foreground font-medium tracking-wide">
                       {vault.name}
                     </h4>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className="text-xs font-mono text-gray-500 ml-2 cursor-help hover:text-orange-400 transition-colors">
+                          <span className="text-xs font-mono text-muted-foreground ml-2 cursor-help hover:text-orange-400 transition-colors">
                             {formatAddress(vault.address)}
                           </span>
                         </TooltipTrigger>
@@ -82,28 +82,28 @@ export function VaultBalances({ vaults }: VaultBalancesProps) {
                       className="inline-flex"
                       aria-label={`Open ${vault.name} in explorer`}
                     >
-                      <ExternalLink className="w-3 h-3 text-gray-600 hover:text-orange-400 cursor-pointer transition-colors" />
+                      <ExternalLink className="w-3 h-3 text-muted-foreground hover:text-orange-400 cursor-pointer transition-colors" />
                     </a>
                   </div>
                   <div className="flex items-baseline gap-2 mt-2">
-                    <span className="font-mono text-lg font-bold text-white tracking-tight">
+                    <span className="font-mono text-lg font-bold text-foreground tracking-tight">
                       {formatCbtc(vault.balanceCbtc)}
                     </span>
-                    <span className="text-sm font-normal text-gray-500 ml-2">
+                    <span className="text-sm font-normal text-muted-foreground ml-2">
                       {formatUsd(vault.usdValue)}
                     </span>
                   </div>
                 </div>
                 <div className="w-28">
-                  <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                     <div
                       className="h-full bg-orange-500 rounded-full"
                       style={{
                         width: maxBalance
                           ? `${Math.max(
-                              10,
-                              (vault.balanceCbtc / maxBalance) * 100
-                            )}%`
+                            10,
+                            (vault.balanceCbtc / maxBalance) * 100
+                          )}%`
                           : "0%",
                       }}
                     />

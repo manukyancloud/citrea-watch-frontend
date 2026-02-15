@@ -34,7 +34,7 @@ export function MobileNav() {
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#EF8F36] to-[#EB582A] flex items-center justify-center">
-              <Layers className="w-4 h-4 text-[#0a0a14]" />
+              <Layers className="w-4 h-4 text-background" />
             </div>
             <span className="font-semibold text-foreground">Citrea</span>
           </div>

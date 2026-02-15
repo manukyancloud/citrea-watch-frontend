@@ -90,7 +90,7 @@ function AddressRow({ item }: { item: AddressItem }) {
     <div className="flex items-center justify-between gap-3 py-2">
       <div className="min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-white font-medium">{item.label}</span>
+          <span className="text-sm text-foreground font-medium">{item.label}</span>
           {item.note && (
             <span className="text-[10px] bg-orange-500/10 text-orange-500 px-2 py-0.5 rounded border border-orange-500/20 ml-2 uppercase tracking-wider">
               {item.note}
@@ -104,7 +104,7 @@ function AddressRow({ item }: { item: AddressItem }) {
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-1 inline-flex items-center gap-2 text-xs text-gray-400 font-mono hover:text-orange-400 transition-colors"
+                className="mt-1 inline-flex items-center gap-2 text-xs text-muted-foreground font-mono hover:text-orange-400 transition-colors"
               >
                 <span>{truncateMiddle(item.address)}</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -159,33 +159,30 @@ export function TransparencyCard() {
           <button
             type="button"
             onClick={() => setActiveTab("bitcoin")}
-            className={`pb-2 text-xs font-semibold tracking-wider transition-colors ${
-              activeTab === "bitcoin"
-                ? "text-orange-500 border-b-2 border-orange-500"
-                : "text-gray-400 hover:text-gray-200"
-            }`}
+            className={`pb-2 text-xs font-semibold tracking-wider transition-colors ${activeTab === "bitcoin"
+              ? "text-orange-500 border-b-2 border-orange-500"
+              : "text-muted-foreground hover:text-foreground"
+              }`}
           >
             Bitcoin L1
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("ethereum")}
-            className={`pb-2 text-xs font-semibold tracking-wider transition-colors ${
-              activeTab === "ethereum"
-                ? "text-orange-500 border-b-2 border-orange-500"
-                : "text-gray-400 hover:text-gray-200"
-            }`}
+            className={`pb-2 text-xs font-semibold tracking-wider transition-colors ${activeTab === "ethereum"
+              ? "text-orange-500 border-b-2 border-orange-500"
+              : "text-muted-foreground hover:text-foreground"
+              }`}
           >
             Ethereum L1
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("citrea")}
-            className={`pb-2 text-xs font-semibold tracking-wider transition-colors ${
-              activeTab === "citrea"
-                ? "text-orange-500 border-b-2 border-orange-500"
-                : "text-gray-400 hover:text-gray-200"
-            }`}
+            className={`pb-2 text-xs font-semibold tracking-wider transition-colors ${activeTab === "citrea"
+              ? "text-orange-500 border-b-2 border-orange-500"
+              : "text-muted-foreground hover:text-foreground"
+              }`}
           >
             Citrea
           </button>
@@ -194,7 +191,7 @@ export function TransparencyCard() {
         <div className="min-h-[320px]">
           {activeTab === "bitcoin" && (
             <div>
-              <p className="text-xs font-semibold text-gray-500 tracking-wider mb-3">
+              <p className="text-xs font-semibold text-muted-foreground tracking-wider mb-3">
                 Bitcoin L1 Vault
               </p>
               <div className="divide-y divide-[rgba(239,143,54,0.08)]">
@@ -208,10 +205,10 @@ export function TransparencyCard() {
           {activeTab === "ethereum" && (
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-3">
-                <p className="text-xs font-semibold text-gray-500 tracking-wider">
+                <p className="text-xs font-semibold text-muted-foreground tracking-wider">
                   ETHEREUM L1 SOURCE BRIDGES (LOCKED ASSETS)
                 </p>
-                <span className="inline-flex items-center gap-1 text-[10px] bg-slate-500/10 text-slate-300 px-2 py-0.5 rounded border border-slate-400/20 uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1 text-[10px] bg-slate-500/10 text-muted-foreground px-2 py-0.5 rounded border border-border uppercase tracking-wider">
                   <Globe className="w-3 h-3" />
                   Ethereum Mainnet
                 </span>
@@ -226,7 +223,7 @@ export function TransparencyCard() {
 
           {activeTab === "citrea" && (
             <div>
-              <p className="text-xs font-semibold text-gray-500 tracking-wider mb-3">
+              <p className="text-xs font-semibold text-muted-foreground tracking-wider mb-3">
                 Canonical Token Contracts (Citrea)
               </p>
               <div className="divide-y divide-[rgba(239,143,54,0.08)]">

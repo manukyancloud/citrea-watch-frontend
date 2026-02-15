@@ -79,6 +79,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     const [settings, setSettings] = useState<UserSettings>(DEFAULT_SETTINGS);
     const [resolvedTheme, setResolvedTheme] = useState<"dark" | "light">("dark");
     const [mounted, setMounted] = useState(false);
+    const [exchangeRates, setExchangeRates] = useState<{ EUR: number; BTC: number }>({ EUR: 1, BTC: 1 });
 
     // Initial load
     useEffect(() => {
@@ -88,6 +89,36 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         setResolvedTheme(resolved);
         applyThemeToDOM(resolved);
         setMounted(true);
+    }, []);
+
+    // Fetch exchange rates (USD → EUR, USD → BTC)
+    useEffect(() => {
+        let cancelled = false;
+        const fetchRates = async () => {
+            try {
+                const res = await fetch(
+                    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,eur"
+                );
+                if (!res.ok) return;
+                const data = await res.json();
+                const btcUsd = data?.bitcoin?.usd as number | undefined;
+                const btcEur = data?.bitcoin?.eur as number | undefined;
+                if (btcUsd && btcEur && !cancelled) {
+                    setExchangeRates({
+                        EUR: btcEur / btcUsd,   // 1 USD = x EUR
+                        BTC: 1 / btcUsd,        // 1 USD = x BTC
+                    });
+                }
+            } catch {
+                // keep previous rates on error
+            }
+        };
+        fetchRates();
+        const interval = setInterval(fetchRates, 5 * 60_000);
+        return () => {
+            cancelled = true;
+            clearInterval(interval);
+        };
     }, []);
 
     // Listen for system theme changes
@@ -139,19 +170,25 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     const formatUsd = useCallback(
         (value: number | null | undefined): string => {
             if (value === null || value === undefined) return "—";
-            const formatted = settings.compactNumbers
-                ? formatNumber(value)
-                : value.toLocaleString(undefined, { maximumFractionDigits: 2 });
-            switch (settings.currency) {
-                case "EUR":
-                    return `€${formatted}`;
-                case "BTC":
-                    return `₿${formatted}`;
-                default:
-                    return `$${formatted}`;
+            let converted = value;
+            let prefix = "$";
+            let maxFrac = 2;
+
+            if (settings.currency === "EUR") {
+                converted = value * exchangeRates.EUR;
+                prefix = "€";
+            } else if (settings.currency === "BTC") {
+                converted = value * exchangeRates.BTC;
+                prefix = "₿";
+                maxFrac = 6;
             }
+
+            const formatted = settings.compactNumbers
+                ? formatNumber(converted)
+                : converted.toLocaleString(undefined, { maximumFractionDigits: maxFrac });
+            return `${prefix}${formatted}`;
         },
-        [settings.currency, settings.compactNumbers, formatNumber]
+        [settings.currency, settings.compactNumbers, formatNumber, exchangeRates]
     );
 
     const formatCbtc = useCallback(

@@ -117,8 +117,8 @@ export function NetworkStats({
       value:
         typeof stablecoinSupplyUsd === "number"
           ? `$${stablecoinSupplyUsd.toLocaleString(undefined, {
-              maximumFractionDigits: 2,
-            })}`
+            maximumFractionDigits: 2,
+          })}`
           : "—",
       unit: "",
       icon: <img src="/ctusd.svg" alt="ctUSD" className="w-4 h-4" />,
@@ -133,7 +133,7 @@ export function NetworkStats({
           ? liveTps.toLocaleString(undefined, { maximumFractionDigits: 2 })
           : typeof tps === "number"
             ? tps.toLocaleString(undefined, { maximumFractionDigits: 3 })
-          : "—",
+            : "—",
       unit: "tx/s",
       icon: <Activity className="w-4 h-4 text-[#EF8F36]" />,
       isLive: typeof liveTps === "number",
@@ -144,8 +144,8 @@ export function NetworkStats({
       value:
         typeof averageBlockTimeSec === "number"
           ? averageBlockTimeSec.toLocaleString(undefined, {
-              maximumFractionDigits: 2,
-            })
+            maximumFractionDigits: 2,
+          })
           : "—",
       unit: "sec",
       icon: <Clock className="w-4 h-4 text-[#EF8F36]" />,
@@ -159,7 +159,7 @@ export function NetworkStats({
           ? liveBlockHeight.toLocaleString()
           : typeof blockHeight === "number"
             ? blockHeight.toLocaleString()
-          : "—",
+            : "—",
       unit: "",
       icon: <Blocks className="w-4 h-4 text-[#EF8F36]" />,
       isLive: typeof liveBlockHeight === "number",
@@ -177,15 +177,14 @@ export function NetworkStats({
         {networkStats.map((stat) => (
           <div
             key={stat.label}
-            className="p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(239,143,54,0.05)] hover:border-[rgba(239,143,54,0.15)] transition-all"
+            className="p-4 rounded-lg bg-muted/30 dark:bg-[rgba(255,255,255,0.02)] border border-[rgba(239,143,54,0.05)] hover:border-[rgba(239,143,54,0.15)] transition-all"
           >
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 {stat.icon}
                 <span
-                  className={`text-[10px] text-muted-foreground tracking-wider ${
-                    stat.label.startsWith("cBTC") ? "" : "uppercase"
-                  }`}
+                  className={`text-[10px] text-muted-foreground tracking-wider ${stat.label.startsWith("cBTC") ? "" : "uppercase"
+                    }`}
                 >
                   {stat.label}
                 </span>

@@ -54,21 +54,20 @@ export function FeeMetrics() {
         {feeMetrics.map((metric) => (
           <div
             key={metric.label}
-            className="flex items-center justify-between p-3 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(239,143,54,0.05)] hover:border-[rgba(239,143,54,0.15)] transition-colors"
+            className="flex items-center justify-between p-3 rounded-lg bg-muted/30 dark:bg-[rgba(255,255,255,0.02)] border border-[rgba(239,143,54,0.05)] hover:border-[rgba(239,143,54,0.15)] transition-colors"
           >
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{metric.label}</span>
               </div>
               <div className="flex items-center gap-2 mt-1">
-                <span className="font-mono text-sm font-semibold text-white">
+                <span className="font-mono text-sm font-semibold text-foreground">
                   {metric.value}
                 </span>
                 {typeof metric.change === "number" ? (
                   <span
-                    className={`text-xs font-mono ${
-                      metric.change >= 0 ? "text-[#22c55e]" : "text-[#ef4444]"
-                    }`}
+                    className={`text-xs font-mono ${metric.change >= 0 ? "text-[#22c55e]" : "text-[#ef4444]"
+                      }`}
                   >
                     {metric.change >= 0 ? "+" : ""}
                     {metric.change}%

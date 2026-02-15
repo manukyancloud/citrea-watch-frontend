@@ -45,7 +45,7 @@ export function CBTCSupplyChart({
   history?: CbtcPoint[];
 }) {
   const historyData = (history ?? []).map((point) => ({
-    date: new Date(point.timestamp).toLocaleString("en-US", {
+    date: new Date(point.timestamp * 1000).toLocaleString("en-US", {
       month: "short",
       day: "2-digit",
       hour: "2-digit",
@@ -55,9 +55,9 @@ export function CBTCSupplyChart({
 
   const fallbackData = typeof currentSupply === "number"
     ? [
-        { date: "Now", supply: currentSupply },
-        { date: "Now", supply: currentSupply },
-      ]
+      { date: "Now", supply: currentSupply },
+      { date: "Now", supply: currentSupply },
+    ]
     : [];
 
   const chartData = historyData.length ? historyData : fallbackData;
@@ -116,7 +116,7 @@ export function CBTCSupplyChart({
               activeDot={{
                 r: 4,
                 fill: "#EF8F36",
-                stroke: "#0a0a14",
+                stroke: "var(--background)",
                 strokeWidth: 2,
               }}
               filter="url(#lineglow)"

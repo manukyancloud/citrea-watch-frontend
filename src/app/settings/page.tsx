@@ -48,7 +48,7 @@ function ToggleSwitch({
             onClick={() => onChange(!enabled)}
             className={cn(
                 "relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none",
-                enabled ? "bg-[#EF8F36]" : "bg-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)] light:bg-[rgba(0,0,0,0.15)]"
+                enabled ? "bg-[#EF8F36]" : "bg-muted"
             )}
         >
             <span
@@ -122,7 +122,7 @@ export default function SettingsPage() {
                                                 "flex flex-col items-center gap-2 p-4 rounded-lg border transition-all duration-200",
                                                 isActive
                                                     ? "border-[#EF8F36] bg-[rgba(239,143,54,0.1)]"
-                                                    : "border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.3)] hover:bg-[rgba(255,255,255,0.04)]"
+                                                    : "border-border bg-muted/40 dark:bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.3)] hover:bg-muted/60 dark:hover:bg-[rgba(255,255,255,0.04)]"
                                             )}
                                         >
                                             <option.icon
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                                                 "px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-200",
                                                 isActive
                                                     ? "border-[#EF8F36] bg-[rgba(239,143,54,0.1)] text-foreground"
-                                                    : "border-border bg-[rgba(255,255,255,0.02)] text-muted-foreground hover:border-[rgba(239,143,54,0.3)]"
+                                                    : "border-border bg-muted/40 dark:bg-[rgba(255,255,255,0.02)] text-muted-foreground hover:border-[rgba(239,143,54,0.3)]"
                                             )}
                                         >
                                             {option.label}
@@ -209,7 +209,7 @@ export default function SettingsPage() {
                                                 "flex items-center gap-2 px-4 py-3 rounded-lg border transition-all duration-200",
                                                 isActive
                                                     ? "border-[#EF8F36] bg-[rgba(239,143,54,0.1)]"
-                                                    : "border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.3)]"
+                                                    : "border-border bg-muted/40 dark:bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.3)]"
                                             )}
                                         >
                                             <span
@@ -271,7 +271,7 @@ export default function SettingsPage() {
                             href="https://github.com/manukyancloud/citrea-watch-frontend"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between p-3 rounded-lg border border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.2)] hover:bg-[rgba(255,255,255,0.04)] transition-all duration-200 group"
+                            className="flex items-center justify-between p-3 rounded-lg border border-border bg-muted/40 dark:bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.2)] hover:bg-muted/60 dark:hover:bg-[rgba(255,255,255,0.04)] transition-all duration-200 group"
                         >
                             <div className="flex items-center gap-3">
                                 <Github className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -288,7 +288,7 @@ export default function SettingsPage() {
                             href="https://github.com/manukyancloud/citrea-watch-backend"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between p-3 rounded-lg border border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.2)] hover:bg-[rgba(255,255,255,0.04)] transition-all duration-200 group"
+                            className="flex items-center justify-between p-3 rounded-lg border border-border bg-muted/40 dark:bg-[rgba(255,255,255,0.02)] hover:border-[rgba(239,143,54,0.2)] hover:bg-muted/60 dark:hover:bg-[rgba(255,255,255,0.04)] transition-all duration-200 group"
                         >
                             <div className="flex items-center gap-3">
                                 <Github className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />

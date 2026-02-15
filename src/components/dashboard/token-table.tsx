@@ -141,7 +141,7 @@ export function TokenTable({ tokens }: { tokens: TokenRow[] }) {
             placeholder="Search tokens..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 w-48 h-8 bg-[rgba(255,255,255,0.03)] border-[rgba(239,143,54,0.1)] text-sm focus:border-[rgba(239,143,54,0.3)]"
+            className="pl-9 w-48 h-8 bg-muted/50 border-[rgba(239,143,54,0.1)] text-sm focus:border-[rgba(239,143,54,0.3)]"
           />
         </div>
       }
@@ -151,35 +151,35 @@ export function TokenTable({ tokens }: { tokens: TokenRow[] }) {
           <thead>
             <tr className="border-b border-[rgba(239,143,54,0.2)]">
               <th className="text-left py-3 px-4">
-                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Token
                 </span>
               </th>
               <th className="text-right py-3 px-4">
                 <button
                   onClick={() => handleSort("price")}
-                  className="flex items-center gap-1 ml-auto text-xs font-medium text-gray-500 uppercase tracking-wider hover:text-foreground transition-colors"
+                  className="flex items-center gap-1 ml-auto text-xs font-medium text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors"
                 >
                   Price
                   <ArrowUpDown className="w-3 h-3" />
                 </button>
               </th>
               <th className="text-right py-3 px-4">
-                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Supply
                 </span>
               </th>
               <th className="text-right py-3 px-4">
                 <button
                   onClick={() => handleSort("marketCap")}
-                  className="flex items-center gap-1 ml-auto text-xs font-medium text-gray-500 uppercase tracking-wider hover:text-foreground transition-colors"
+                  className="flex items-center gap-1 ml-auto text-xs font-medium text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors"
                 >
                   Market Cap
                   <ArrowUpDown className="w-3 h-3" />
                 </button>
               </th>
               <th className="text-right py-3 px-4">
-                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   7D Txn Trend
                 </span>
               </th>
@@ -194,7 +194,7 @@ export function TokenTable({ tokens }: { tokens: TokenRow[] }) {
                 <td className="py-4 px-4">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#EF8F36] to-[#EB582A] flex items-center justify-center">
-                      <span className="text-[10px] font-bold text-[#0a0a14]">
+                      <span className="text-[10px] font-bold text-background">
                         {token.symbol.slice(0, 2)}
                       </span>
                     </div>
@@ -215,9 +215,9 @@ export function TokenTable({ tokens }: { tokens: TokenRow[] }) {
                     {token.price === null
                       ? "—"
                       : `$${token.price.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}`}
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}`}
                   </span>
                 </td>
                 <td className="py-4 px-4 text-right">
@@ -241,8 +241,8 @@ export function TokenTable({ tokens }: { tokens: TokenRow[] }) {
                         txnTrend && txnTrend.length >= 2
                           ? txnTrend
                           : Array.from({ length: 10 }, (_, i) =>
-                              (token.price ?? 0) * (1 + (i - 5) * 0.001)
-                            )
+                            (token.price ?? 0) * (1 + (i - 5) * 0.001)
+                          )
                       }
                       color="#EF8F36"
                       height={32}
