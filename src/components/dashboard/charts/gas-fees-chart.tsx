@@ -158,7 +158,6 @@ export function GasFeesChart({ data, isPlaceholder }: GasFeesChartProps) {
               stroke="#F97316"
               strokeWidth={2}
               dot={false}
-              filter="url(#gasGlow)"
             />
             <Line
               type="monotone"
@@ -166,7 +165,6 @@ export function GasFeesChart({ data, isPlaceholder }: GasFeesChartProps) {
               stroke="#10B981"
               strokeWidth={2}
               dot={false}
-              filter="url(#gasGlow)"
             />
             <Line
               type="monotone"
@@ -174,7 +172,6 @@ export function GasFeesChart({ data, isPlaceholder }: GasFeesChartProps) {
               stroke="#8b5cf6"
               strokeWidth={2}
               dot={false}
-              filter="url(#gasGlow)"
             />
           </LineChart>
         </ResponsiveContainer>

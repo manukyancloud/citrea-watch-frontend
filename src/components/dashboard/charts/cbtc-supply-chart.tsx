@@ -45,7 +45,7 @@ export function CBTCSupplyChart({
   history?: CbtcPoint[];
 }) {
   const historyData = (history ?? []).map((point) => ({
-    date: new Date(point.timestamp * 1000).toLocaleString("en-US", {
+    date: new Date(point.timestamp).toLocaleString("en-US", {
       month: "short",
       day: "2-digit",
       hour: "2-digit",
@@ -105,6 +105,7 @@ export function CBTCSupplyChart({
               tick={{ fill: "#6b7280", fontSize: 11 }}
               tickFormatter={(value) => `${value.toLocaleString()}`}
               dx={-10}
+              domain={[0, "auto"]}
             />
             <Tooltip content={<CustomTooltip />} />
             <Line
@@ -119,7 +120,6 @@ export function CBTCSupplyChart({
                 stroke: "var(--background)",
                 strokeWidth: 2,
               }}
-              filter="url(#lineglow)"
             />
           </LineChart>
         </ResponsiveContainer>

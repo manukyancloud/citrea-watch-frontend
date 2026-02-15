@@ -112,13 +112,13 @@ export function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 glass-card border-r border-[rgba(239,143,54,0.15)] flex flex-col">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-[rgba(239,143,54,0.1)]">
+      <div className="flex items-center gap-0 px-6 py-5 border-b border-[rgba(239,143,54,0.1)]">
         <div className="relative">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-transparent">
+          <div className="w-16 h-16 rounded-lg flex items-center justify-center bg-transparent">
             <img
-              src="/citrea-logo.png"
+              src="/cw-logo.png"
               alt="Citrea"
-              className="w-10 h-10"
+              className="w-16 h-16 object-contain"
             />
           </div>
         </div>

@@ -69,7 +69,7 @@ export function TVLChart({
   }, [history, period]);
 
   const historyData = filteredHistory.map((point) => ({
-    date: new Date(point.timestamp * 1000).toLocaleString("en-US", {
+    date: new Date(point.timestamp).toLocaleString("en-US", {
       month: "short",
       day: "2-digit",
       hour: "2-digit",
@@ -98,8 +98,8 @@ export function TVLChart({
               type="button"
               onClick={() => setPeriod(periodOption as typeof period)}
               className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${periodOption === period
-                  ? "bg-[rgba(239,143,54,0.15)] text-[#EF8F36] border border-[rgba(239,143,54,0.3)]"
-                  : "text-muted-foreground hover:text-foreground"
+                ? "bg-[rgba(239,143,54,0.15)] text-[#EF8F36] border border-[rgba(239,143,54,0.3)]"
+                : "text-muted-foreground hover:text-foreground"
                 }`}
             >
               {periodOption}

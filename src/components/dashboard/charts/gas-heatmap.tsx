@@ -77,7 +77,7 @@ export function GasHeatmap({ data, isPlaceholder }: GasHeatmapProps) {
       <div className="overflow-x-auto">
         <div className="min-w-[600px]">
           {/* Hour labels */}
-          <div className="flex mb-2 ml-10">
+          <div className="flex mb-2 ml-12">
             {[0, 4, 8, 12, 16, 20].map((hour) => (
               <div
                 key={hour}
@@ -93,21 +93,33 @@ export function GasHeatmap({ data, isPlaceholder }: GasHeatmapProps) {
           <div className="space-y-1">
             {heatmapData.map((row, rowIndex) => (
               <div key={`${row.day}-${rowIndex}`} className="flex items-center gap-2">
-                <span className="text-[10px] text-muted-foreground w-8">
+                <span className="text-[10px] text-muted-foreground w-10 shrink-0 whitespace-nowrap">
                   {row.day}
                 </span>
-                <div className="flex-1 flex gap-0.5">
-                  {row.hours.map((cell) => (
-                    <div
-                      key={`${row.day}-${rowIndex}-${cell.hour}`}
-                      className={cn(
-                        "flex-1 h-6 rounded-sm transition-all cursor-pointer hover:scale-110",
-                        getHeatColor(cell.value),
-                        getHeatGlow(cell.value)
-                      )}
-                      title={`${row.day} ${cell.hour}:00 - ${cell.value.toFixed(0)} gwei`}
-                    />
-                  ))}
+                <div className="flex-1 grid gap-0.5" style={{ gridTemplateColumns: 'repeat(24, 1fr)' }}>
+                  {Array.from({ length: 24 }, (_, i) => {
+                    const cell = row.hours.find((c) => c.hour === i);
+                    if (cell) {
+                      return (
+                        <div
+                          key={`${row.day}-${rowIndex}-${i}`}
+                          className={cn(
+                            "h-6 rounded-sm transition-all cursor-pointer hover:scale-110",
+                            getHeatColor(cell.value),
+                            getHeatGlow(cell.value)
+                          )}
+                          title={`${row.day} ${i}:00 - ${cell.value.toFixed(0)} gwei`}
+                        />
+                      );
+                    }
+                    return (
+                      <div
+                        key={`${row.day}-${rowIndex}-${i}`}
+                        className="h-6 rounded-sm bg-muted/20"
+                        title={`${row.day} ${i}:00 - no data`}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             ))}

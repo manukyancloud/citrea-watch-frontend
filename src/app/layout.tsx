@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   title: "Citrea Watch",
   description: "Citrea Network Analytics Dashboard",
   icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg",
+    icon: "/cw-logo.png",
+    apple: "/cw-logo.png",
   },
   generator: "v0.app",
 };
