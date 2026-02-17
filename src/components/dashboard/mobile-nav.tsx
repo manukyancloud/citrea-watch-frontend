@@ -8,7 +8,6 @@ import {
   X,
   LayoutDashboard,
   ArrowLeftRight,
-  Coins,
   Layers,
   Settings,
   HelpCircle,
@@ -20,7 +19,6 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { title: "Overview", href: "/", icon: LayoutDashboard },
   { title: "Bridge & Fees", href: "/bridge", icon: ArrowLeftRight },
-  { title: "Token Analytics", href: "/tokens", icon: Coins },
 ];
 
 export function MobileNav() {
