@@ -49,7 +49,7 @@ export default function OverviewPage() {
         {/* Page Header */}
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-semibold text-foreground tracking-tight">
-            Network Overview (deneme)
+            Network Overview
           </h1>
           <p className="text-sm text-muted-foreground">
             Real-time analytics for Citrea Network performance and metrics
